@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
+import { jwtConfig } from 'src/config/jwt';
 import { userProviders } from './user.provider';
 import { DatabaseModule } from 'src/infra/database.module';
 import { User } from 'src/shared/entities/user.entity';
@@ -10,7 +11,8 @@ import { BcryptProvider } from 'src/shared/providers/HasherProvider/bcrypt.provi
 import { JwtProvider } from 'src/shared/providers/EncryptProvider/jwt.provider';
 import { SignUpService } from './context/signup/signUp.service';
 import { SignUpController } from './context/signup/signUp.controller';
-import { jwtConfig } from 'src/config/jwt';
+import { SigninService } from './context/signin/signin.service';
+import { SigninController } from './context/signin/signin.controller';
 
 @Module({
   imports: [
@@ -24,7 +26,8 @@ import { jwtConfig } from 'src/config/jwt';
     { provide: 'HASH_PROVIDER', useClass: BcryptProvider },
     { provide: 'ENCRYPTER_PROVIDER', useClass: JwtProvider },
     SignUpService,
+    SigninService,
   ],
-  controllers: [SignUpController],
+  controllers: [SignUpController, SigninController],
 })
 export class UserModule {}
