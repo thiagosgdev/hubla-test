@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RouterModule } from '@nestjs/core';
 import { routerConfig } from './config/routes';
 import { envConfig } from './config/env';
+import { TransactionModule } from './modules/transactions/transaction.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { envConfig } from './config/env';
     }),
     RouterModule.register(routerConfig),
     UserModule,
+    TransactionModule,
   ],
   controllers: [],
   providers: [],
