@@ -13,6 +13,7 @@ import { SignUpService } from './context/signup/signUp.service';
 import { SignUpController } from './context/signup/signUp.controller';
 import { SigninService } from './context/signin/signin.service';
 import { SigninController } from './context/signin/signin.controller';
+import { FindUserByNameService } from './context/findUserByName/findUserByName.service';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { SigninController } from './context/signin/signin.controller';
     { provide: 'ENCRYPTER_PROVIDER', useClass: JwtProvider },
     SignUpService,
     SigninService,
+    FindUserByNameService,
   ],
   controllers: [SignUpController, SigninController],
 })
