@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { userRoles } from '../dtos/users/user.dto';
+import { Transaction } from './transaction.entity';
 
 @Entity('users')
 export class User {
@@ -25,6 +27,9 @@ export class User {
 
   @Column()
   role: userRoles;
+
+  @OneToMany(() => Transaction, (transactions) => transactions.user)
+  transactions: Transaction[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

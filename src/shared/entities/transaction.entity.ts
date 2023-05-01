@@ -3,10 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { TransactionType } from '../dtos/transactions/transaction.dto';
+import { User } from './user.entity';
 
 @Entity('transactions')
 export class Transaction {
@@ -20,13 +23,17 @@ export class Transaction {
   price: number;
 
   @Column({ name: 'transaction_date' })
-  transactionDate: string;
+  transactionDate: Date;
 
   @Column({ name: 'seller_id' })
   sellerId: string;
 
   @Column()
   type: TransactionType;
+
+  @ManyToOne(() => User, (user) => user.transactions)
+  @JoinColumn({ name: 'seller_id' })
+  user: User;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
