@@ -7,8 +7,8 @@ import {
 } from '@nestjs/swagger';
 
 import { SignUpService } from './signUp.service';
-import { User } from 'src/shared/entities/user.entity';
 import { SignUpRequestDTO } from 'src/shared/dtos/users/signUpRequest.dto';
+import { UserWithTokenDTO } from 'src/shared/dtos/users/user.dto';
 
 @ApiTags('users')
 @Controller('/signup')
@@ -18,7 +18,7 @@ export class SignUpController {
   @Post()
   @ApiCreatedResponse({
     description: 'The user object will be returned',
-    type: User,
+    type: UserWithTokenDTO,
   })
   @ApiBadRequestResponse({
     description: 'This will be returned when a validation error happens',
