@@ -5,7 +5,9 @@ import { FileConversor } from 'src/shared/providers/FileProvider/protocols/fileC
 import { Transaction } from 'src/shared/entities/transaction.entity';
 import { TransactionType } from 'src/shared/dtos/transactions/transaction.dto';
 import { FindUserByNameService } from 'src/modules/user/context/findUserByName/findUserByName.service';
-import { type } from 'os';
+import { CreateUserService } from 'src/modules/user/context/createUser/createUser.service';
+import { envConfig } from 'src/config/env';
+import { userRoles } from 'src/shared/dtos/users/user.dto';
 
 export class CreateTransactionService {
   constructor(
@@ -14,38 +16,55 @@ export class CreateTransactionService {
     @Inject('FILE_PROVIDER')
     private fileConversor: FileConversor,
     private findUserByNameService: FindUserByNameService,
+    private createUserService: CreateUserService,
   ) {}
-  async execute(file: string): Promise<object> {
+  async execute(file: string): Promise<Transaction[]> {
     const lines = file.split('\n');
 
     const fileConverted = await this.fileConversor.sliceTransactionsToJson(
       lines,
     );
 
-    let typeValue: TransactionType;
-    const transactions = await Promise.all(
-      fileConverted.map(async (item) => {
-        typeValue = Object.entries(TransactionType).find(
-          (value) => Number(value[1]) + 1 === item.type,
-        )[0] as unknown as TransactionType;
+    const transactions = [];
 
-        const userName = item.seller.toLocaleUpperCase();
-        const user = await this.findUserByNameService.execute(userName);
+    for (const item of fileConverted) {
+      const typeValue = Object.entries(TransactionType).find(
+        (value) => Number(value[1]) + 1 === item.type,
+      )[0] as unknown as TransactionType;
 
-        const { id: user_id } = user;
+      const userName = item.seller.toLocaleUpperCase();
 
-        const transaction = this.transactionRepository.create({
-          ...item,
-          type: typeValue,
-          sellerId: user_id,
-          transactionDate: item.date,
+      let user = await this.findUserByNameService.execute(userName);
+
+      if (!user) {
+        const email =
+          userName.replace(/\s/g, '').toLocaleLowerCase() + '@mail.com';
+
+        const role = (item.type === 0 || item.type === 2
+          ? 'creator'
+          : 'associate') as unknown as userRoles;
+
+        user = await this.createUserService.execute({
+          name: userName,
+          password: envConfig().defaultUserPassword,
+          email,
+          role,
         });
+      }
 
-        await this.transactionRepository.save(transaction);
+      const { id: user_id } = user;
 
-        return transaction;
-      }),
-    );
+      const transaction = this.transactionRepository.create({
+        ...item,
+        type: typeValue,
+        sellerId: user_id,
+        transactionDate: item.date,
+      });
+
+      await this.transactionRepository.save(transaction);
+
+      transactions.push(transaction);
+    }
 
     return transactions;
   }
