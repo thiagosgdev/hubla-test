@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "8772d299-c41c-4a93-b3c6-b3a7f4d609b7",
+		"name": "Hubla test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18542550"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Find By Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/find/thiagosgdev@gmail.com",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"find",
+								"thiagosgdev@gmail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"thiagosantos.guaeca@gmail.com\",\n    \"password\": \"123456789\",\n    \"passwordConfirmation\": \"123456789\",\n    \"role\": \"user\",\n    \"name\": \"Thiago\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/signup",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"thiagosantos.guaeca@gmail.com\",\n    \"password\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/signin",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List User Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/transactions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "5bc7984e-8212-4856-b6b4-bb6b47617c72",
+									"disabled": true
+								},
+								{
+									"key": "userName",
+									"value": "iago",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Create Transactions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/thiago/Desktop/desafio-programacao-fullstack/desafio-programacao-fullstack-1.2.0/sales.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/transactions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Amount By User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/transactions/amount/49596d4b-4144-4574-84e8-eb8c6a705780",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"transactions",
+								"amount",
+								"49596d4b-4144-4574-84e8-eb8c6a705780"
+							],
+							"query": [
+								{
+									"key": "totalAmount",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
