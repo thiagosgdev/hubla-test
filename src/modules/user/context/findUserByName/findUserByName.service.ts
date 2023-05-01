@@ -1,4 +1,4 @@
-import { Inject, NotFoundException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from 'src/shared/entities/user.entity';
 
@@ -7,11 +7,7 @@ export class FindUserByNameService {
     @Inject('USER_REPOSITORY')
     private userRepository: Repository<User>,
   ) {}
-  async execute(name: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { name } });
-    if (!user) {
-      throw new NotFoundException('User not found!');
-    }
-    return user;
+  async execute(name: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { name } });
   }
 }
