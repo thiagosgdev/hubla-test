@@ -14,6 +14,8 @@ import { SignUpController } from './context/signup/signUp.controller';
 import { SigninService } from './context/signin/signin.service';
 import { SigninController } from './context/signin/signin.controller';
 import { FindUserByNameService } from './context/findUserByName/findUserByName.service';
+import { ListUserTransactionsController } from './context/listUserTransactions/listUserTransactions.controller';
+import { ListUserTransactionsService } from './context/listUserTransactions/listUserTransactions.service';
 
 @Module({
   imports: [
@@ -29,7 +31,12 @@ import { FindUserByNameService } from './context/findUserByName/findUserByName.s
     SignUpService,
     SigninService,
     FindUserByNameService,
+    ListUserTransactionsService,
   ],
-  controllers: [SignUpController, SigninController],
+  controllers: [
+    SignUpController,
+    SigninController,
+    ListUserTransactionsController,
+  ],
 })
 export class UserModule {}
