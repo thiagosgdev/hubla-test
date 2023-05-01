@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  
+  database_hubla:
+    image: postgres
+    container_name: database_hubla
+    restart: always
+    ports: 
+      - "65435:5432"
+    environment:
+      - POSTGRES_USER=${TYPEORM_USERNAME}
+      - POSTGRES_PASSWORD=${TYPEORM_PASSWORD}
+      - POSTGRES_DB=${TYPEORM_DATABASE}
+    volumes:
+      - pgdata:/data/postgres    
+    env_file:
+      - .env
+  app_hubla:
+    build: .
+    container_name: app_ioasys
+    restart: always
+    ports: 
+      - ${PORT}:${PORT}   
+    volumes: 
+      - .:/usr/app
+      - /usr/app/node_modules 
+    links: 
+      - database_hubla
+    depends_on:
+      - database_hubla
+    env_file:
+      - .env
+
+volumes:
+  pgdata:
+    driver: local
