@@ -1,73 +1,29 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Hubla Backend Test - Thiago Gonçalves
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Disclaimer
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Given the test instruction, I choose to only do the backend of the test, because NOW I don't know how to build a frontend application that I can be satisfied to deliver. I only have experience as a backend developer but with this test, I saw the need of studying how to build a frontend app. I'm studying now HTML and CSS, after that I'll look into React.
 
-## Description
+## API Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- The API has the option to receive a file, parse it's lines and following the data structure in the instruction file, get the information and persist in the DB.
+- To be able to use a Authentication method, I created a users table, that can be populated by the Signup route or while inserting the data from the transactions file, it'll create a new user, if no user exists with the same. It isn't the best practice, but for a test, I thought it would be a good thing to do.
+- For the Authorization, I built a Guard to use as decorator and receive which roles can used the route. It can be seen in the `shared/providers/EncryptProvider`.
+- To run the unit tests, in the terminal, you can use the command `yarn test`.
 
-## Installation
+### Routes
 
-```bash
-$ yarn install
-```
+- POST `/users/signup` - Creates a new user
+- POST `/users/sign` - Authenticates a user
+- GET `/users/transactions` - Returns an array of User and it's transactions
+- POST `/transactions` - Receives a file, parses it, persist the data in the DB and returns the transactions added.
+- GET `/transactions/amount/{userId}` - Return the transactions amount from a given user
 
-## Running the app
+A more detailed description of the routes is avaiable in the `/api/docs` route.
 
-```bash
-# development
-$ yarn run start
+## Using Docker
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+- Navigate to the project folder and rename the file `.env.example` to `.env` and check if you need to change any variable value.
+- In a terminal, in the project folder, run the command `docker-compose up`. This will start the DB, runs the migrations and start the API.
+- Now you can send request throw `http://localhost:{PORT}`. The `{PORT}` is what you put on PORT in the `.env` file. And you can send a request to the route `/api/docs` to check all endpoints available.
+- You can also import the postman file available in the root of the project.
