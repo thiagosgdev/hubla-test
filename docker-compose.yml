@@ -18,7 +18,7 @@ services:
       - .env
   app_hubla:
     build: .
-    container_name: app_ioasys
+    container_name: app_hubla
     restart: always
     ports: 
       - ${PORT}:${PORT}   
